@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let productImages = Array.from(document.querySelector('figure.woocommerce-product-gallery__wrapper').children);
     let dropDown = document.querySelector('.gfield_select');
 
-    // Store product images 
+    // Store product image nodes as an object
     let galleryObject = productImages.reduce((result, item) => {
         let itemImg = item.firstElementChild.firstElementChild;
         let itemAlt = itemImg.alt;
@@ -15,9 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
         return result;
     }, {});
 
-    // Swap out appropriate image upon dropdown change event
-    dropDown.addEventListener('change', function (event) {
-        galleryObject[event.target.value].remove();
-        imageWrap.insertBefore(galleryObject[event.target.value], imageWrap.firstElementChild);
+    // Swap out appropriate image on dropdown change 
+    dropDown.addEventListener('change', event => {
+        if (galleryObject[event.target.value]) {
+            galleryObject[event.target.value].remove();
+            imageWrap.insertBefore(galleryObject[event.target.value], imageWrap.firstElementChild);
+        }
     });
 });
